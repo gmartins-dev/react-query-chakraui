@@ -1,38 +1,83 @@
-import * as React from "react"
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+import { useState } from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './styles/theme';
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
+import { useQuery } from 'react-query';
+
+export interface Data {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}
+
+async function getUser(id: number) {
+  const request = await fetch(
+    `https://reqres.in/api/users/1?delay=1`,
+  );
+
+  const response = await request.json();
+
+  if (!request.ok) {
+    throw new Error(response.error);
+  }
+  return response.data as Data;
+}
+
+function App() {
+  const [currentUserId, setCurrentUserId] = useState(1);
+  const { data, isError, isLoading } = useQuery(
+    ['users', currentUserId],
+    () => getUser(currentUserId),
+    {
+      staleTime: 50000,
+    },
+  );
+
+  if (isError) {
+    return (
+      <section>
+        <p>Soment went wrong</p>
+      </section>
+    );
+  }
+
+  if (!data || isLoading) {
+    return (
+      <section>
+        <p>Loading...</p>
+      </section>
+    );
+  }
+
+  return (
+    <ChakraProvider theme={theme}>
+      <section>
+        <img src={data.avatar} />
+        <p>
+          {data.first_name} {data.last_name} ({data.id})
+        </p>
+        <p>Email: {data.email}</p>
+
+        <div>
+          <button
+            onClick={() =>
+              setCurrentUserId((prev) => prev - 1)
+            }
           >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+            Prev
+          </button>
+          <button
+            onClick={() =>
+              setCurrentUserId((prev) => prev + 1)
+            }
+          >
+            Next
+          </button>
+        </div>
+      </section>
+    </ChakraProvider>
+  );
+}
+export default App;
