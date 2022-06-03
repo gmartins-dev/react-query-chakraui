@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './styles/theme';
-
 import { useQuery } from 'react-query';
 
 export interface Data {
@@ -14,7 +13,7 @@ export interface Data {
 
 async function getUser(id: number) {
   const request = await fetch(
-    `https://reqres.in/api/users/1?delay=1`,
+    `https://reqres.in/api/users/${id}?delay=1`,
   );
 
   const response = await request.json();
@@ -27,7 +26,7 @@ async function getUser(id: number) {
 
 function App() {
   const [currentUserId, setCurrentUserId] = useState(1);
-  const { data, isError, isLoading } = useQuery(
+  const { data, isError, isLoading, isFetching } = useQuery(
     ['users', currentUserId],
     () => getUser(currentUserId),
     {
@@ -38,7 +37,7 @@ function App() {
   if (isError) {
     return (
       <section>
-        <p>Soment went wrong</p>
+        <p>Something went wrong</p>
       </section>
     );
   }
@@ -59,7 +58,6 @@ function App() {
           {data.first_name} {data.last_name} ({data.id})
         </p>
         <p>Email: {data.email}</p>
-
         <div>
           <button
             onClick={() =>
@@ -76,6 +74,9 @@ function App() {
             Next
           </button>
         </div>
+        {isFetching && (
+          <small>We are updating your data</small>
+        )}
       </section>
     </ChakraProvider>
   );
