@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './styles/theme';
 import { useQuery } from 'react-query';
+import { Header } from './components/commons/Header';
 
 export interface Data {
   id: number;
@@ -52,6 +53,7 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
+      <Header />
       <section>
         <img src={data.avatar} />
         <p>
