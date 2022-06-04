@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import theme from './styles/theme';
 import { useQuery } from 'react-query';
-import { Header } from './components/commons/Header';
+
+import theme from './styles/theme';
+import { Center, ChakraProvider } from '@chakra-ui/react';
+import { Header } from './components/commons/Header/index';
+import { VerticalCard } from './components/card/VerticalCard';
+import { vertical_cards } from './components-mock.json';
 
 export interface Data {
   id: number;
@@ -53,7 +56,17 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Header />
+      <div>
+        <Header />
+        <Center>
+          {vertical_cards.map((vertical_card) => (
+            <VerticalCard
+              key={vertical_card.title}
+              card={vertical_card}
+            />
+          ))}
+        </Center>
+      </div>
       <section>
         <img src={data.avatar} />
         <p>
