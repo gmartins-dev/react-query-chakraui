@@ -7,11 +7,11 @@ import {
 } from '@chakra-ui/react';
 import { customScrollbar } from '../../styles/styles';
 
-interface HorizontalCardProps {
+interface VerticalCardProps {
   card: {
     title: string;
     content: string;
-    image: {
+    image?: {
       url: string;
       alt: string;
     };
@@ -19,32 +19,38 @@ interface HorizontalCardProps {
   };
 }
 
-export function HorizontalCard({
-  card,
-}: HorizontalCardProps) {
-  const { image, title, content, publishDate } = card;
-
+export function VerticalCard({ card }: VerticalCardProps) {
+  const { title, content, image, publishDate } = card;
   return (
     <Flex
-      maxWidth="850px"
-      maxHeight="400px"
+      direction="column"
+      maxW="450px"
+      maxH="500px"
       borderRadius="8px"
       bgColor="gray.100"
     >
-      <Image
-        src={image.url}
-        alt={image.alt}
-        maxW={['200px', '300px', '400px']}
-        maxH={['200px', '300px', '400px']}
-        objectFit="cover"
-        borderLeftRadius="8px"
-      />
+      {image && (
+        <Image
+          src={image.url}
+          alt={image.alt}
+          w="100%"
+          h="100%"
+          maxW="450px"
+          maxH="220px"
+          objectFit="cover"
+          borderTopRadius="8px"
+        />
+      )}
       <VStack
         p="16px"
-        spacing="16px"
+        gap="16px"
+        marginY="64px"
         align="flex-start"
+        maxW="450px"
         minW="200px"
-        h={['200px', '300px', '400px']}
+        h="100%"
+        w="100%"
+        overflow="auto"
       >
         <Text variant="subtitle">{publishDate}</Text>
         <Heading size="lg">{title}</Heading>
