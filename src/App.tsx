@@ -4,8 +4,8 @@ import { useQuery } from 'react-query';
 import theme from './styles/theme';
 import { Center, ChakraProvider } from '@chakra-ui/react';
 import { Header } from './components/commons/Header/index';
-import { VerticalCard } from './components/card/VerticalCard';
-import { vertical_cards } from './components-mock.json';
+import { HorizontalCard } from './components/card/HorizontalCard';
+import { horizontal_cards } from './components-mock.json';
 
 export interface Data {
   id: number;
@@ -59,10 +59,10 @@ function App() {
       <div>
         <Header />
         <Center>
-          {vertical_cards.map((vertical_card) => (
-            <VerticalCard
-              key={vertical_card.title}
-              card={vertical_card}
+          {horizontal_cards.map((horizontal_card) => (
+            <HorizontalCard
+              key={horizontal_card.title}
+              card={horizontal_card}
             />
           ))}
         </Center>
