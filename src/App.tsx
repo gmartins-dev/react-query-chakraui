@@ -9,10 +9,6 @@ import {
 } from '@chakra-ui/react';
 import { Header } from './components/commons/Header/index';
 import { HorizontalCard } from './components/card/HorizontalCard';
-import {
-  horizontal_cards,
-  vertical_cards,
-} from './components-mock.json';
 import { VerticalCard } from './components/card/VerticalCard';
 
 export interface Data {
@@ -68,18 +64,9 @@ function App() {
         <Header />
         <Center>
           <VStack gap="64px">
-            {horizontal_cards.map((horizontal_card) => (
-              <HorizontalCard
-                key={horizontal_card.title}
-                card={horizontal_card}
-              />
-            ))}
-            {vertical_cards.map((vertical_card) => (
-              <VerticalCard
-                key={vertical_card.title}
-                card={vertical_card}
-              />
-            ))}
+            <HorizontalCard key={data.id} card={data} />
+
+            <VerticalCard key={data.id} card={data} />
           </VStack>
         </Center>
       </div>

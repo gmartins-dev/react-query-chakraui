@@ -9,20 +9,18 @@ import { customScrollbar } from '../../styles/styles';
 
 interface HorizontalCardProps {
   card: {
-    title: string;
-    content: string;
-    image: {
-      url: string;
-      alt: string;
-    };
-    publishDate: string;
+    id: number;
+    email: string;
+    first_name: string;
+    last_name: string;
+    avatar: string;
   };
 }
 
 export function HorizontalCard({
   card,
 }: HorizontalCardProps) {
-  const { image, title, content, publishDate } = card;
+  const { id, email, first_name, last_name, avatar } = card;
 
   return (
     <Flex
@@ -32,8 +30,8 @@ export function HorizontalCard({
       bgColor="gray.100"
     >
       <Image
-        src={image.url}
-        alt={image.alt}
+        src={avatar}
+        alt={first_name}
         maxW={['200px', '300px', '400px']}
         maxH={['200px', '300px', '400px']}
         objectFit="cover"
@@ -46,10 +44,13 @@ export function HorizontalCard({
         minW="200px"
         h={['200px', '300px', '400px']}
       >
-        <Text variant="subtitle">{publishDate}</Text>
-        <Heading size="lg">{title}</Heading>
+        <Text variant="subtitle">{id}</Text>
+        <Heading size="lg">
+          {first_name}
+          {last_name}
+        </Heading>
         <Text overflowY="auto" css={customScrollbar}>
-          {content}
+          {email}
         </Text>
       </VStack>
     </Flex>
